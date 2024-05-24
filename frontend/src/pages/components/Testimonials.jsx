@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { testimonials } from "../../data/data"
+import { useState } from "react";
+import { testimonials } from "../../data/data";
 
 export default function Testimonials() {
   const [cards] = useState(testimonials)
