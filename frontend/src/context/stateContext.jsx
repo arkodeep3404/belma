@@ -9,10 +9,10 @@ export default function StateContext({ children }) {
   const [name, setName] = useState("Digante");
   const [address, setAddress] = useState("Amarpur");
   const [email, setEmail] = useState("digante@gmail.com");
-  const [phone, setPhone] = useState("");
-  const [bankName, setBankName] = useState("");
-  const [bankAccount, setBankAccount] = useState("");
-  const [website, setWebsite] = useState("");
+  const [phone, setPhone] = useState("9831088909");
+  const [bankName, setBankName] = useState("Axis Bank");
+  const [bankAccount, setBankAccount] = useState("1234567890");
+  const [website, setWebsite] = useState("nexawings.com");
   const [clientName, setClientName] = useState("");
   const [clientAddress, setClientAddress] = useState("");
   const [invoiceNumber, setInvoiceNumber] = useState("");

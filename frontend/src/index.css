@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@media print {
+  @page {
+    size: a3
+  }
+}
+
 :root {
   --blue-card: #12036f;
   --red-card: #f12711;
