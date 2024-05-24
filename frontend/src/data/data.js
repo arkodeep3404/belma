@@ -27,7 +27,6 @@ export const testimonials = [
     name: "Heléna Aparajita",
     company: "Adverb",
     image: "./assets/image-1.png",
-    icon: <FaTwitter className="text-blue-500 text-2xl" />,
   },
   {
     id: uuidv4(),
@@ -35,7 +34,6 @@ export const testimonials = [
     name: "Hugh No'ah",
     company: "YouTube",
     image: "./assets/image-2.png",
-    icon: <FaTwitter className="text-blue-500 text-2xl" />,
   },
   {
     id: uuidv4(),
@@ -43,6 +41,5 @@ export const testimonials = [
     name: "Demostrate Elvan",
     company: "TsbDesigns",
     image: "./assets/image-3.png",
-    icon: <FaTwitter className="text-blue-500 text-2xl" />,
   },
 ];
