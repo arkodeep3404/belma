@@ -8,7 +8,6 @@ import Notes from "./Notes";
 import Table from "./Table";
 import TableForm from "./TableForm";
 import ReactToPrint from "react-to-print";
-import { DonateButton } from "../buttons";
 import { State } from "../context/stateContext";
 
 function App() {
@@ -45,7 +44,7 @@ function App() {
   return (
     <>
       <main
-        className="m-5 p-5 xl:grid grid-cols-2 gap-10 xl:items-start"
+        className="m-5 p-5 xl:grid grid-cols-2 gap-5 xl:items-start"
         style={{
           maxWidth: "1920px",
           margin: "auto",
@@ -251,9 +250,6 @@ function App() {
               ></textarea>
             </div>
           </div>
-          <article className="mt-5">
-            <DonateButton />
-          </article>
         </section>
 
         {/* Invoice Preview */}
@@ -266,7 +262,7 @@ function App() {
             )}
             content={() => componentRef.current}
           />
-          <div ref={componentRef} className="p-5">
+          <div ref={componentRef} className="p-10">
             <Header />
 
             <MainDetails />

@@ -6,9 +6,9 @@ import collect from "collect.js";
 export const State = createContext();
 
 export default function StateContext({ children }) {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("Digante");
+  const [address, setAddress] = useState("Amarpur");
+  const [email, setEmail] = useState("digante@gmail.com");
   const [phone, setPhone] = useState("");
   const [bankName, setBankName] = useState("");
   const [bankAccount, setBankAccount] = useState("");
