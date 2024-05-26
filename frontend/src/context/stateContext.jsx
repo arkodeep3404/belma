@@ -15,6 +15,8 @@ export default function StateContext({ children }) {
   const [website, setWebsite] = useState("nexawings.com");
   const [clientName, setClientName] = useState("");
   const [clientAddress, setClientAddress] = useState("");
+  const [clientList, setClientList] = useState([]);
+  const [selectClient, setSelectClient] = useState("");
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const [invoiceDate, setInvoiceDate] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -63,8 +65,38 @@ export default function StateContext({ children }) {
       setAmount("");
       setList([...list, newItems]);
       setIsEditing(false);
-      console.log(list);
     }
+  };
+
+  // Add client function
+  const addClient = (e) => {
+    e.preventDefault();
+
+    if (!clientName || !clientAddress) {
+      toast.error("Please fill in all inputs");
+    } else {
+      const newClient = {
+        id: uuidv4(),
+        clientName,
+        clientAddress,
+      };
+
+      setClientName("");
+      setClientAddress("");
+      setClientList([...clientList, newClient]);
+
+      toast.success("New client added");
+    }
+  };
+
+  const currentClient = (e) => {
+    setSelectClient(e.target.value);
+    clientList.map((client) => {
+      if (client.id === e.target.value) {
+        setClientName(client.clientName);
+        setClientAddress(client.clientAddress);
+      }
+    });
   };
 
   // Calculate items amount function
@@ -144,6 +176,10 @@ export default function StateContext({ children }) {
     setClientName,
     clientAddress,
     setClientAddress,
+    clientList,
+    setClientList,
+    selectClient,
+    setSelectClient,
     invoiceNumber,
     setInvoiceNumber,
     invoiceDate,
@@ -172,6 +208,8 @@ export default function StateContext({ children }) {
     showModal,
     setShowModal,
     handleSubmit,
+    addClient,
+    currentClient,
     editRow,
     deleteRow,
     showLogoutModal,

@@ -280,3 +280,7 @@ button {
     margin-bottom: 2rem;
   }
 }
+
+.grid-cols {
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+}

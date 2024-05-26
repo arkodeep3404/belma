@@ -28,7 +28,7 @@ export default function TableForm() {
       <ToastContainer position="top-right" theme="colored" />
 
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col md:mt-16">
+        <div className="flex flex-col">
           <label htmlFor="description">Item description</label>
           <input
             type="text"
@@ -77,7 +77,7 @@ export default function TableForm() {
           type="submit"
           className="bg-blue-500 mb-5 text-white font-bold py-2 px-8 rounded hover:bg-blue-600 hover:text-white transition-all duration-150 hover:ring-4 hover:ring-blue-400"
         >
-          {isEditing ? "Finish Editing" : "Add Table Item"}
+          {isEditing ? "Finish Editing" : "Add Item"}
         </button>
       </form>
 

@@ -9,6 +9,7 @@ import Table from "./Table";
 import TableForm from "./TableForm";
 import ReactToPrint from "react-to-print";
 import { State } from "../context/stateContext";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 function App() {
   const {
@@ -30,6 +31,9 @@ function App() {
     setClientName,
     clientAddress,
     setClientAddress,
+    clientList,
+    selectClient,
+    setSelectedClient,
     invoiceNumber,
     setInvoiceNumber,
     invoiceDate,
@@ -39,6 +43,8 @@ function App() {
     notes,
     setNotes,
     componentRef,
+    addClient,
+    currentClient,
   } = useContext(State);
 
   return (
@@ -159,8 +165,8 @@ function App() {
                 </div>
               </article>
 
-              <article className="md:grid grid-cols-2 gap-10 md:mt-16">
-                <div className="flex flex-col">
+              <article className="md:grid grid-cols-12 gap-8">
+                <div className="col-span-5 flex flex-col">
                   <label htmlFor="clientName">Enter your client's name</label>
                   <input
                     type="text"
@@ -174,10 +180,11 @@ function App() {
                   />
                 </div>
 
-                <div className="flex flex-col">
+                <div className="col-span-6 flex flex-col">
                   <label htmlFor="clientAddress">
                     Enter your client's address
                   </label>
+
                   <input
                     type="text"
                     name="clientAddress"
@@ -188,6 +195,30 @@ function App() {
                     value={clientAddress}
                     onChange={(e) => setClientAddress(e.target.value)}
                   />
+                </div>
+                <button className="col-span-1" onClick={addClient}>
+                  <IoIosAddCircleOutline className="text-green-500 font-bold text-2xl" />
+                </button>
+              </article>
+
+              <article className="md:grid grid-cols-1 mb-5">
+                <div className="flex flex-col">
+                  <label htmlFor="selectClient">Select a Client</label>
+                  <select
+                    name="selectClient"
+                    id="selectClient"
+                    value={selectClient}
+                    onChange={currentClient}
+                  >
+                    <option value="" disabled>
+                      Select a client
+                    </option>
+                    {clientList.map((client) => (
+                      <option key={client.id} value={client.id}>
+                        {client.clientName} - {client.clientAddress}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </article>
 
