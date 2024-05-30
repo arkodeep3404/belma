@@ -12,21 +12,35 @@ export default function Table() {
             <td className="font-bold">Description</td>
             <td className="font-bold">Quantity</td>
             <td className="font-bold">Price</td>
+            <td className="font-bold">Discount type</td>
+            <td className="font-bold">Discount amount</td>
             <td className="font-bold">Amount</td>
           </tr>
         </thead>
-        {list.map(({ id, description, quantity, price, amount }) => (
-          <React.Fragment key={id}>
-            <tbody>
-              <tr className="h-10">
-                <td>{description}</td>
-                <td>{quantity}</td>
-                <td>{price}</td>
-                <td>{amount}</td>
-              </tr>
-            </tbody>
-          </React.Fragment>
-        ))}
+        {list.map(
+          ({
+            id,
+            description,
+            quantity,
+            price,
+            discountType,
+            discountAmount,
+            amount,
+          }) => (
+            <React.Fragment key={id}>
+              <tbody>
+                <tr className="h-10">
+                  <td>{description}</td>
+                  <td>{quantity}</td>
+                  <td>{price}</td>
+                  <td>{discountType}</td>
+                  <td>{discountAmount}</td>
+                  <td>{amount}</td>
+                </tr>
+              </tbody>
+            </React.Fragment>
+          )
+        )}
       </table>
 
       <div>

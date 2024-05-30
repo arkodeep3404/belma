@@ -33,7 +33,6 @@ function App() {
     setClientAddress,
     clientList,
     selectClient,
-    setSelectedClient,
     invoiceNumber,
     setInvoiceNumber,
     invoiceDate,
@@ -224,12 +223,12 @@ function App() {
 
               <article className="md:grid grid-cols-3 gap-10">
                 <div className="flex flex-col">
-                  <label htmlFor="invoiceNumber">Invoice Number</label>
+                  <label htmlFor="invoiceNumber">Invoice ID</label>
                   <input
                     type="text"
                     name="invoiceNumber"
                     id="invoiceNumber"
-                    placeholder="Invoice Number"
+                    placeholder="Invoice ID"
                     autoComplete="off"
                     value={invoiceNumber}
                     onChange={(e) => setInvoiceNumber(e.target.value)}

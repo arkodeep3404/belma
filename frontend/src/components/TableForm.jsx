@@ -14,6 +14,10 @@ export default function TableForm() {
     price,
     setPrice,
     amount,
+    discountType,
+    setDiscountType,
+    discountAmount,
+    setDiscountAmount,
     list,
     total,
     isEditing,
@@ -41,7 +45,7 @@ export default function TableForm() {
           />
         </div>
 
-        <div className="md:grid grid-cols-3 gap-10">
+        <div className="md:grid grid-cols-5 gap-5">
           <div className="flex flex-col">
             <label htmlFor="quantity">Quantity</label>
             <input
@@ -69,6 +73,39 @@ export default function TableForm() {
           </div>
 
           <div className="flex flex-col">
+            <label htmlFor="discountType">Discount type</label>
+            <select
+              name="discountType"
+              id="discountType"
+              value={discountType}
+              onChange={(e) => setDiscountType(e.target.value)}
+            >
+              <option selected value="" disabled>
+                Discount type
+              </option>
+              <option key="percentage" value="percentage">
+                Percentage
+              </option>
+              <option key="absolute" value="absolute">
+                Absolute
+              </option>
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="discountAmount">Discount Amount</label>
+            <input
+              type="text"
+              name="discountAmount"
+              id="discountAmount"
+              placeholder="Discount Amount"
+              maxLength={33}
+              value={discountAmount}
+              onChange={(e) => setDiscountAmount(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col">
             <label htmlFor="amount">Amount</label>
             <p>{amount}</p>
           </div>
@@ -89,32 +126,46 @@ export default function TableForm() {
             <td className="font-bold">Description</td>
             <td className="font-bold">Quantity</td>
             <td className="font-bold">Price</td>
+            <td className="font-bold">Discount type</td>
+            <td className="font-bold">Discount amount</td>
             <td className="font-bold">Amount</td>
           </tr>
         </thead>
-        {list.map(({ id, description, quantity, price, amount }) => (
-          <React.Fragment key={id}>
-            <tbody>
-              <tr className="h-10">
-                <td>{description}</td>
-                <td>{quantity}</td>
-                <td>{price}</td>
-                <td className="amount">{amount}</td>
-                <td>
-                  <button onClick={() => editRow(id)}>
-                    <AiOutlineEdit className="text-green-500 font-bold text-xl" />
-                  </button>
-                </td>
-                <td>
-                  <button onClick={() => setShowModal(true)}>
-                    <AiOutlineDelete className="text-red-500 font-bold text-xl" />
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-            {showModal && <DeleteModal id={id} />}
-          </React.Fragment>
-        ))}
+        {list.map(
+          ({
+            id,
+            description,
+            quantity,
+            price,
+            discountType,
+            discountAmount,
+            amount,
+          }) => (
+            <React.Fragment key={id}>
+              <tbody>
+                <tr className="h-10">
+                  <td>{description}</td>
+                  <td>{quantity}</td>
+                  <td>{price}</td>
+                  <td>{discountType}</td>
+                  <td>{discountAmount}</td>
+                  <td className="amount">{amount}</td>
+                  <td>
+                    <button onClick={() => editRow(id)}>
+                      <AiOutlineEdit className="text-green-500 font-bold text-xl" />
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={() => setShowModal(true)}>
+                      <AiOutlineDelete className="text-red-500 font-bold text-xl" />
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+              {showModal && <DeleteModal id={id} />}
+            </React.Fragment>
+          )
+        )}
       </table>
 
       <div>

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import collect from "collect.js";
 
 export const State = createContext();
+const uuid = Math.random().toString(36).substring(2, 7);
 
 export default function StateContext({ children }) {
   const [name, setName] = useState("Digante");
@@ -17,13 +18,15 @@ export default function StateContext({ children }) {
   const [clientAddress, setClientAddress] = useState("");
   const [clientList, setClientList] = useState([]);
   const [selectClient, setSelectClient] = useState("");
-  const [invoiceNumber, setInvoiceNumber] = useState("");
+  const [invoiceNumber, setInvoiceNumber] = useState(uuid);
   const [invoiceDate, setInvoiceDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [notes, setNotes] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
+  const [discountType, setDiscountType] = useState("");
+  const [discountAmount, setDiscountAmount] = useState("");
   const [amount, setAmount] = useState("");
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
@@ -57,11 +60,15 @@ export default function StateContext({ children }) {
         description,
         quantity,
         price,
+        discountType,
+        discountAmount,
         amount,
       };
       setDescription("");
       setQuantity("");
       setPrice("");
+      setDiscountType("");
+      setDiscountAmount("");
       setAmount("");
       setList([...list, newItems]);
       setIsEditing(false);
@@ -99,14 +106,20 @@ export default function StateContext({ children }) {
     });
   };
 
-  // Calculate items amount function
+  // Calculate items amount with discount function
   useEffect(() => {
-    const calculateAmount = (amount) => {
-      setAmount(quantity * price);
+    const calculateAmount = () => {
+      if (discountType === "percentage") {
+        setAmount(quantity * price - (discountAmount / 100) * quantity * price);
+      } else if (discountType === "absolute") {
+        setAmount(quantity * price - discountAmount);
+      } else {
+        setAmount(quantity * price);
+      }
     };
 
-    calculateAmount(amount);
-  }, [amount, price, quantity, setAmount]);
+    calculateAmount();
+  }, [amount, price, quantity, discountType, discountAmount]);
 
   /* Calculate total amount of items in table
   This is the previous function to calculate the total amount of items in the table
@@ -148,6 +161,8 @@ export default function StateContext({ children }) {
     setDescription(editingRow.description);
     setQuantity(editingRow.quantity);
     setPrice(editingRow.price);
+    setDiscountType(editingRow.discountType);
+    setDiscountAmount(editingRow.discountAmount);
   };
 
   // Delete function
@@ -196,6 +211,10 @@ export default function StateContext({ children }) {
     setPrice,
     amount,
     setAmount,
+    discountType,
+    setDiscountType,
+    discountAmount,
+    setDiscountAmount,
     list,
     setList,
     total,

@@ -20,7 +20,7 @@ export default function Footer() {
             <span className="font-bold">Account number:</span> {bankAccount}
           </li>
         </ul>
-        <img src={qr} alt=""></img>
+        <img src={qr} alt="payment qr code"></img>
       </footer>
 
       <p className="text-center px-5 mt-8 text-xs ">
