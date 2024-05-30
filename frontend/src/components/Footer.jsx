@@ -12,7 +12,7 @@ export default function Footer() {
         <ul className="flex flex-col flex-wrap justify-center">
           <li>
             <span className="font-bold">Bank:</span> {bankName}
-          </li>
+          </li> 
           <li>
             <span className="font-bold">Account holder:</span> {name}
           </li>

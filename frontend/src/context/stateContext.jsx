@@ -35,6 +35,7 @@ export default function StateContext({ children }) {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [user, setUser] = useState(null);
 
   const componentRef = useRef();
 
@@ -233,6 +234,8 @@ export default function StateContext({ children }) {
     deleteRow,
     showLogoutModal,
     setShowLogoutModal,
+    user,
+    setUser,
   };
 
   return <State.Provider value={context}>{children}</State.Provider>;

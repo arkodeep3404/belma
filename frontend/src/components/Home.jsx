@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ClientDetails from "./ClientDetails";
 import Dates from "./Dates";
 import Footer from "./Footer";
@@ -10,8 +10,10 @@ import TableForm from "./TableForm";
 import ReactToPrint from "react-to-print";
 import { State } from "../context/stateContext";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { Navigate, useNavigate } from "react-router-dom";
+import { account } from "../context/appwrite";
 
-function App() {
+function Home() {
   const {
     name,
     setName,
@@ -44,7 +46,34 @@ function App() {
     componentRef,
     addClient,
     currentClient,
+    user,
+    setUser,
   } = useContext(State);
+
+  const navigate = useNavigate();
+
+  async function init() {
+    try {
+      const loggedIn = await account.get();
+      setUser(loggedIn);
+    } catch (err) {
+      setUser(null);
+    }
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  if (user === null) {
+    return <Navigate to={"/signin"} />;
+  }
+
+  async function Logout() {
+    await account.deleteSession("current");
+    setUser(null);
+    navigate("/signin");
+  }
 
   return (
     <>
@@ -56,6 +85,12 @@ function App() {
         }}
       >
         <section>
+          <button
+            onClick={Logout}
+            className="mb-5 bg-blue-500 ml-5 text-white font-bold py-2 px-8 rounded hover:bg-blue-600 hover:text-white transition-all duration-150 hover:ring-4 hover:ring-blue-400"
+          >
+            Logout
+          </button>
           <div className="bg-white p-5 rounded shadow">
             <div className="flex flex-col justify-center">
               <article className="md:grid grid-cols-2 gap-10">
@@ -313,4 +348,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
