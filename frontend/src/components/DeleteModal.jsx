@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { State } from "../context/stateContext";
 

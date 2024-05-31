@@ -3,7 +3,7 @@ import { State } from "../context/stateContext";
 import qr from "../context/qr.jpg";
 
 export default function Footer() {
-  const { name, email, website, phone, bankAccount, bankName } =
+  const { name, bankAccount, bankName } =
     useContext(State);
 
   return (
