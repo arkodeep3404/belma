@@ -80,7 +80,7 @@ export default function TableForm() {
               value={discountType}
               onChange={(e) => setDiscountType(e.target.value)}
             >
-              <option selected value="" disabled>
+              <option value="" disabled>
                 Discount type
               </option>
               <option key="percentage" value="percentage">

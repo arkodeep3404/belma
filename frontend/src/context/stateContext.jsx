@@ -2,6 +2,7 @@ import { createContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import collect from "collect.js";
+import { account, databases, ID, Query } from "./appwrite";
 
 export const State = createContext();
 const uuid = Math.random().toString(36).substring(2, 7);
@@ -36,6 +37,8 @@ export default function StateContext({ children }) {
   const [showModal, setShowModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [user, setUser] = useState(null);
+  const databaseId = "66594e19000ac703768e";
+  const collectionId = "66594ef800375eb212c4";
 
   const componentRef = useRef();
 
@@ -48,6 +51,19 @@ export default function StateContext({ children }) {
       alert("Place your phone in landscape mode for the best experience");
     }
   }, [width]);
+
+  async function init() {
+    try {
+      const loggedIn = await account.get();
+      setUser(loggedIn);
+    } catch (err) {
+      setUser(null);
+    }
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
 
   // Submit form function
   const handleSubmit = (e) => {
@@ -77,30 +93,54 @@ export default function StateContext({ children }) {
   };
 
   // Add client function
-  const addClient = (e) => {
+  const addClient = async (e) => {
     e.preventDefault();
 
     if (!clientName || !clientAddress) {
       toast.error("Please fill in all inputs");
     } else {
       const newClient = {
-        id: uuidv4(),
+        userId: user.$id,
         clientName,
         clientAddress,
       };
 
+      await databases.createDocument(
+        databaseId,
+        collectionId,
+        ID.unique(),
+        newClient
+      );
+
       setClientName("");
       setClientAddress("");
-      setClientList([...clientList, newClient]);
+
+      const response = await databases.listDocuments(databaseId, collectionId, [
+        Query.orderDesc(""),
+        Query.limit(100),
+      ]);
+      setClientList(response.documents);
 
       toast.success("New client added");
     }
   };
 
+  async function fetchClients() {
+    const response = await databases.listDocuments(databaseId, collectionId, [
+      Query.orderDesc(""),
+      Query.limit(100),
+    ]);
+    setClientList(response.documents);
+  }
+
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
   const currentClient = (e) => {
     setSelectClient(e.target.value);
     clientList.map((client) => {
-      if (client.id === e.target.value) {
+      if (client.$id === e.target.value) {
         setClientName(client.clientName);
         setClientAddress(client.clientAddress);
       }

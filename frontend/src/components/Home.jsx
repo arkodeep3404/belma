@@ -247,11 +247,15 @@ function Home() {
                     <option value="" disabled>
                       Select a client
                     </option>
-                    {clientList.map((client) => (
-                      <option key={client.id} value={client.id}>
-                        {client.clientName} - {client.clientAddress}
-                      </option>
-                    ))}
+                    {clientList.map((client) => {
+                      if (client.userId === user.$id) {
+                        return (
+                          <option key={client.$id} value={client.$id}>
+                            {client.clientName} - {client.clientAddress}
+                          </option>
+                        );
+                      }
+                    })}
                   </select>
                 </div>
               </article>
