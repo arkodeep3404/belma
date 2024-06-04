@@ -5,7 +5,7 @@ import collect from "collect.js";
 import { account, databases, ID, Query } from "./appwrite";
 
 export const State = createContext();
-const uuid = Math.random().toString(36).substring(2, 7);
+const uuid = Math.random().toString().substring(2, 7);
 
 export default function StateContext({ children }) {
   const [name, setName] = useState("Digante");
@@ -23,11 +23,14 @@ export default function StateContext({ children }) {
   const [invoiceDate, setInvoiceDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [notes, setNotes] = useState("");
+  const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
   const [discountType, setDiscountType] = useState("");
   const [discountAmount, setDiscountAmount] = useState("");
+  const [finalDiscountType, setFinalDiscountType] = useState("");
+  const [finalDiscountAmount, setFinalDiscountAmount] = useState("");
   const [amount, setAmount] = useState("");
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
@@ -69,11 +72,12 @@ export default function StateContext({ children }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!description || !quantity || !price) {
+    if (!itemName || !description || !quantity || !price) {
       toast.error("Please fill in all inputs");
     } else {
       const newItems = {
         id: uuidv4(),
+        itemName,
         description,
         quantity,
         price,
@@ -81,6 +85,8 @@ export default function StateContext({ children }) {
         discountAmount,
         amount,
       };
+
+      setItemName("");
       setDescription("");
       setQuantity("");
       setPrice("");
@@ -150,9 +156,9 @@ export default function StateContext({ children }) {
   // Calculate items amount with discount function
   useEffect(() => {
     const calculateAmount = () => {
-      if (discountType === "percentage") {
+      if (discountType === "Percentage") {
         setAmount(quantity * price - (discountAmount / 100) * quantity * price);
-      } else if (discountType === "absolute") {
+      } else if (discountType === "Absolute") {
         setAmount(quantity * price - discountAmount);
       } else {
         setAmount(quantity * price);
@@ -185,14 +191,21 @@ export default function StateContext({ children }) {
 
   // Use collect.js to calculate the total amount of items in the table. This is a much better function than the commented one above.
   const calculateTotal = () => {
-    const allItems = list.map((item) => item.price);
+    const allItems = list.map((item) => item.amount);
+    const total = collect(allItems).sum();
 
-    setTotal(collect(allItems).sum());
+    if (finalDiscountType === "Percentage") {
+      setTotal(total - (finalDiscountAmount / 100) * total);
+    } else if (finalDiscountType === "Absolute") {
+      setTotal(total - finalDiscountAmount);
+    } else {
+      setTotal(total);
+    }
   };
 
   useEffect(() => {
     calculateTotal();
-  });
+  }, [list, total, finalDiscountType, finalDiscountAmount]);
 
   // Edit function
   const editRow = (id) => {
@@ -244,6 +257,8 @@ export default function StateContext({ children }) {
     setDueDate,
     notes,
     setNotes,
+    itemName,
+    setItemName,
     description,
     setDescription,
     quantity,
@@ -256,6 +271,10 @@ export default function StateContext({ children }) {
     setDiscountType,
     discountAmount,
     setDiscountAmount,
+    finalDiscountType,
+    setFinalDiscountType,
+    finalDiscountAmount,
+    setFinalDiscountAmount,
     list,
     setList,
     total,

@@ -7,6 +7,8 @@ import { State } from "../context/stateContext";
 
 export default function TableForm() {
   const {
+    itemName,
+    setItemName,
     description,
     setDescription,
     quantity,
@@ -18,6 +20,10 @@ export default function TableForm() {
     setDiscountType,
     discountAmount,
     setDiscountAmount,
+    finalDiscountType,
+    setFinalDiscountType,
+    finalDiscountAmount,
+    setFinalDiscountAmount,
     list,
     total,
     isEditing,
@@ -32,17 +38,31 @@ export default function TableForm() {
       <ToastContainer position="top-right" theme="colored" />
 
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col">
-          <label htmlFor="description">Item description</label>
-          <input
-            type="text"
-            name="description"
-            id="description"
-            placeholder="Item description"
-            maxLength={96}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+        <div className="md:grid grid-cols-2 gap-5">
+          <div className="flex flex-col">
+            <label htmlFor="name">Item name</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Item name"
+              maxLength={96}
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="description">Item description</label>
+            <input
+              type="text"
+              name="description"
+              id="description"
+              placeholder="Item description"
+              maxLength={96}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="md:grid grid-cols-5 gap-5">
@@ -83,22 +103,22 @@ export default function TableForm() {
               <option value="" disabled>
                 Discount type
               </option>
-              <option key="percentage" value="percentage">
+              <option key="Percentage" value="Percentage">
                 Percentage
               </option>
-              <option key="absolute" value="absolute">
+              <option key="Absolute" value="Absolute">
                 Absolute
               </option>
             </select>
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="discountAmount">Discount Amount</label>
+            <label htmlFor="discountAmount">Discount amount</label>
             <input
               type="text"
               name="discountAmount"
               id="discountAmount"
-              placeholder="Discount Amount"
+              placeholder="Discount amount"
               maxLength={33}
               value={discountAmount}
               onChange={(e) => setDiscountAmount(e.target.value)}
@@ -123,6 +143,7 @@ export default function TableForm() {
       <table width="100%" className="mb-10 overflow-auto">
         <thead>
           <tr className="bg-gray-100 p-1">
+            <td className="font-bold">Name</td>
             <td className="font-bold">Description</td>
             <td className="font-bold">Quantity</td>
             <td className="font-bold">Price</td>
@@ -134,6 +155,7 @@ export default function TableForm() {
         {list.map(
           ({
             id,
+            itemName,
             description,
             quantity,
             price,
@@ -144,6 +166,7 @@ export default function TableForm() {
             <React.Fragment key={id}>
               <tbody>
                 <tr className="h-10">
+                  <td>{itemName}</td>
                   <td>{description}</td>
                   <td>{quantity}</td>
                   <td>{price}</td>
@@ -169,6 +192,41 @@ export default function TableForm() {
       </table>
 
       <div>
+        <div className="flex justify-end gap-5 text-gray-800 mb-5">
+          <div className="flex flex-col">
+            <label htmlFor="finalDiscountType">Final discount type</label>
+            <select
+              name="finalDiscountType"
+              id="finalDiscountType"
+              value={finalDiscountType}
+              onChange={(e) => setFinalDiscountType(e.target.value)}
+            >
+              <option value="" disabled>
+                Final discount type
+              </option>
+              <option key="Percentage" value="Percentage">
+                Percentage
+              </option>
+              <option key="Absolute" value="Absolute">
+                Absolute
+              </option>
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="discountAmount">Final discount amount</label>
+            <input
+              type="text"
+              name="discountAmount"
+              id="discountAmount"
+              placeholder="Final discount amount"
+              maxLength={33}
+              value={finalDiscountAmount}
+              onChange={(e) => setFinalDiscountAmount(e.target.value)}
+            />
+          </div>
+        </div>
+
         <h2 className="flex items-end justify-end text-gray-800 text-4xl font-bold">
           Rs. {total.toLocaleString()}
         </h2>
